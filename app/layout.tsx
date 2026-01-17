@@ -22,6 +22,23 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ProfeApp SW registrado:', registration.scope);
+                  }, function(err) {
+                    console.log('ProfeApp SW error:', err);
+                  });
+                });
+              }
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-gradient-mesh">
         {children}
       </body>
