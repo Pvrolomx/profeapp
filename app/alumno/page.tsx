@@ -153,9 +153,11 @@ export default function AlumnoDashboard() {
           {scanResult === 'success' ? (
             // Éxito
             <div className="text-center py-8 animate-fade-in">
-              <div className="w-24 h-24 mx-auto bg-emerald-100 rounded-full flex items-center justify-center text-emerald-500 mb-6">
-                <Icons.Check />
-              </div>
+              <img 
+                src="/success.png" 
+                alt="¡Éxito!"
+                className="w-48 h-48 mx-auto mb-4 drop-shadow-lg"
+              />
               <h2 className="text-2xl font-display font-bold text-emerald-600 mb-2">
                 ¡Asistencia registrada!
               </h2>
