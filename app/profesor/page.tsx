@@ -144,6 +144,7 @@ export default function ProfesorDashboard() {
   const [timeLeft, setTimeLeft] = useState(120)
   const [asistencias, setAsistencias] = useState<Asistencia[]>([])
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [vistaActual, setVistaActual] = useState<'asistencia' | 'menu'>('menu')
   
   // Configuración de la clase
   const clase = {
@@ -152,6 +153,16 @@ export default function ProfesorDashboard() {
     horario: 'Martes y Jueves 8:00 - 10:00',
     salon: 'Aula 302',
   }
+
+  // Módulos disponibles
+  const modulos = [
+    { id: 'asistencia', nombre: 'Asistencia', desc: 'QR dinámico', icon: '📋', color: 'emerald', action: () => setVistaActual('asistencia') },
+    { id: 'calificaciones', nombre: 'Calificaciones', desc: 'Capturar notas', icon: '📊', color: 'ink', href: '/profesor/calificaciones' },
+    { id: 'avisos', nombre: 'Avisos', desc: 'Comunicación', icon: '📢', color: 'amber', href: '/profesor/avisos' },
+    { id: 'tareas', nombre: 'Tareas', desc: 'Entregas', icon: '📁', color: 'purple', href: '/profesor/tareas' },
+    { id: 'calendario', nombre: 'Calendario', desc: 'Fechas', icon: '📅', color: 'blue', href: '/profesor/calendario' },
+    { id: 'reportes', nombre: 'Reportes', desc: 'Exportar', icon: '📄', color: 'gray', href: '/profesor/reportes' },
+  ]
 
   // Actualizar reloj
   useEffect(() => {
@@ -233,9 +244,15 @@ export default function ProfesorDashboard() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link href="/" className="text-pizarra-400 hover:text-pizarra-600 transition-colors">
-                <Icons.Back />
-              </Link>
+              {vistaActual === 'asistencia' ? (
+                <button onClick={() => setVistaActual('menu')} className="text-pizarra-400 hover:text-pizarra-600 transition-colors">
+                  <Icons.Back />
+                </button>
+              ) : (
+                <Link href="/" className="text-pizarra-400 hover:text-pizarra-600 transition-colors">
+                  <Icons.Back />
+                </Link>
+              )}
               <div>
                 <h1 className="text-xl font-display font-semibold text-pizarra-800">
                   {clase.nombre}
@@ -257,7 +274,75 @@ export default function ProfesorDashboard() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      {vistaActual === 'menu' ? (
+        /* Vista de menú con módulos */
+        <main className="max-w-4xl mx-auto px-6 py-8">
+          {/* Stats rápidos */}
+          <div className="grid grid-cols-4 gap-4 mb-8">
+            <div className="card p-4 text-center">
+              <p className="text-2xl font-bold text-pizarra-800">40</p>
+              <p className="text-xs text-pizarra-500">Alumnos</p>
+            </div>
+            <div className="card p-4 text-center">
+              <p className="text-2xl font-bold text-emerald-600">92%</p>
+              <p className="text-xs text-pizarra-500">Asistencia</p>
+            </div>
+            <div className="card p-4 text-center">
+              <p className="text-2xl font-bold text-ink-600">78.5</p>
+              <p className="text-xs text-pizarra-500">Promedio</p>
+            </div>
+            <div className="card p-4 text-center">
+              <p className="text-2xl font-bold text-amber-600">3</p>
+              <p className="text-xs text-pizarra-500">Pendientes</p>
+            </div>
+          </div>
+
+          {/* Grid de módulos */}
+          <h2 className="text-lg font-semibold text-pizarra-800 mb-4">Módulos</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {modulos.map(modulo => {
+              const content = (
+                <div className={`card p-6 hover:shadow-lg transition-all cursor-pointer group`}>
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-4 ${
+                    modulo.color === 'emerald' ? 'bg-emerald-100' :
+                    modulo.color === 'ink' ? 'bg-ink-100' :
+                    modulo.color === 'amber' ? 'bg-amber-100' :
+                    modulo.color === 'purple' ? 'bg-purple-100' :
+                    modulo.color === 'blue' ? 'bg-blue-100' :
+                    'bg-pizarra-100'
+                  }`}>
+                    {modulo.icon}
+                  </div>
+                  <h3 className="font-semibold text-pizarra-800 group-hover:text-ink-600 transition-colors">
+                    {modulo.nombre}
+                  </h3>
+                  <p className="text-sm text-pizarra-500">{modulo.desc}</p>
+                </div>
+              )
+
+              if (modulo.href) {
+                return <Link key={modulo.id} href={modulo.href}>{content}</Link>
+              }
+              return <div key={modulo.id} onClick={modulo.action}>{content}</div>
+            })}
+          </div>
+
+          {/* Acciones rápidas */}
+          <div className="mt-8 grid md:grid-cols-2 gap-4">
+            <button 
+              onClick={() => setVistaActual('asistencia')}
+              className="btn-profe py-4 text-lg"
+            >
+              📋 Tomar asistencia ahora
+            </button>
+            <Link href="/profesor/avisos" className="btn-alumno py-4 text-lg text-center">
+              📢 Enviar aviso al grupo
+            </Link>
+          </div>
+        </main>
+      ) : (
+        /* Vista de asistencia con QR */
+        <main className="max-w-7xl mx-auto px-6 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Columna izquierda: QR */}
           <div className="lg:col-span-1">
@@ -427,6 +512,7 @@ export default function ProfesorDashboard() {
           </div>
         </div>
       </main>
+      )}
     </div>
   )
 }
