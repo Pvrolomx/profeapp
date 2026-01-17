@@ -227,60 +227,17 @@ export default function Home() {
             
             {/* Right: Visual */}
             <div className={`relative ${mounted ? 'animate-slide-up stagger-2' : 'opacity-0'}`} style={{ animationFillMode: 'forwards' }}>
-              {/* QR Preview mockup */}
+              {/* Hero illustration */}
               <div className="relative">
-                {/* Background decoration */}
+                {/* Background glow */}
                 <div className="absolute -inset-4 bg-gradient-to-br from-ink-200/50 via-transparent to-sol-200/50 rounded-3xl blur-2xl"></div>
                 
-                {/* Main card */}
-                <div className="relative bg-white rounded-3xl shadow-2xl p-8 border border-pizarra-100">
-                  {/* Header */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <p className="text-sm text-pizarra-400">Estadística Aplicada</p>
-                      <p className="text-lg font-semibold text-pizarra-800">Grupo 4A · Martes 8:00</p>
-                    </div>
-                    <div className="badge badge-success">
-                      <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></span>
-                      En vivo
-                    </div>
-                  </div>
-                  
-                  {/* QR Placeholder */}
-                  <div className="aspect-square max-w-[280px] mx-auto bg-gradient-to-br from-ink-50 to-pizarra-100 rounded-2xl flex items-center justify-center mb-6 border-4 border-ink-100">
-                    <div className="text-center">
-                      <div className="w-20 h-20 mx-auto mb-4 bg-ink-600 rounded-2xl flex items-center justify-center text-white">
-                        <Icons.QR />
-                      </div>
-                      <p className="text-pizarra-500 font-medium">Código QR dinámico</p>
-                      <p className="text-sm text-pizarra-400">Cambia cada 2 min</p>
-                    </div>
-                  </div>
-                  
-                  {/* Stats */}
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div className="bg-emerald-50 rounded-xl p-3">
-                      <p className="text-2xl font-bold text-emerald-600">32</p>
-                      <p className="text-xs text-emerald-600">Presentes</p>
-                    </div>
-                    <div className="bg-amber-50 rounded-xl p-3">
-                      <p className="text-2xl font-bold text-amber-600">3</p>
-                      <p className="text-xs text-amber-600">Retardos</p>
-                    </div>
-                    <div className="bg-pizarra-100 rounded-xl p-3">
-                      <p className="text-2xl font-bold text-pizarra-600">5</p>
-                      <p className="text-xs text-pizarra-500">Faltas</p>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Floating elements */}
-                <div className="absolute -right-4 top-1/4 bg-white rounded-xl shadow-lg p-3 animate-float">
-                  <p className="text-sm font-medium text-emerald-600">✓ Ana García - 8:02am</p>
-                </div>
-                <div className="absolute -left-4 bottom-1/4 bg-white rounded-xl shadow-lg p-3 animate-float" style={{ animationDelay: '1s' }}>
-                  <p className="text-sm font-medium text-emerald-600">✓ Luis Pérez - 8:03am</p>
-                </div>
+                {/* Hero image */}
+                <img 
+                  src="/hero.png" 
+                  alt="Profesor con QR y alumnos escaneando"
+                  className="relative w-full max-w-lg mx-auto drop-shadow-2xl"
+                />
               </div>
             </div>
           </div>
