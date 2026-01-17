@@ -3,6 +3,54 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
+// Hook para manejar instalación PWA
+function useInstallPrompt() {
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+  const [isInstallable, setIsInstallable] = useState(false)
+  const [isInstalled, setIsInstalled] = useState(false)
+
+  useEffect(() => {
+    // Verificar si ya está instalada
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsInstalled(true)
+      return
+    }
+
+    const handler = (e: Event) => {
+      e.preventDefault()
+      setDeferredPrompt(e)
+      setIsInstallable(true)
+    }
+
+    window.addEventListener('beforeinstallprompt', handler)
+    
+    // Detectar instalación exitosa
+    window.addEventListener('appinstalled', () => {
+      setIsInstalled(true)
+      setIsInstallable(false)
+      setDeferredPrompt(null)
+    })
+
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+
+  const install = async () => {
+    if (!deferredPrompt) return false
+    
+    deferredPrompt.prompt()
+    const { outcome } = await deferredPrompt.userChoice
+    
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null)
+      setIsInstallable(false)
+      return true
+    }
+    return false
+  }
+
+  return { isInstallable, isInstalled, install }
+}
+
 // Iconos SVG inline para evitar dependencias
 const Icons = {
   QR: () => (
@@ -45,6 +93,16 @@ const Icons = {
       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
     </svg>
   ),
+  Download: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+    </svg>
+  ),
+  CheckCircle: () => (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  ),
 }
 
 // Componente de feature card
@@ -85,6 +143,7 @@ function PainPoint({ pain, solution }: { pain: string; solution: string }) {
 
 export default function Home() {
   const [mounted, setMounted] = useState(false)
+  const { isInstallable, isInstalled, install } = useInstallPrompt()
   
   useEffect(() => {
     setMounted(true)
@@ -105,6 +164,22 @@ export default function Home() {
           </Link>
           
           <div className="flex items-center gap-3">
+            {/* Botón Instalar App */}
+            {isInstallable && !isInstalled && (
+              <button 
+                onClick={install}
+                className="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-sol-400 to-sol-500 text-pizarra-900 px-4 py-2 rounded-xl text-sm font-semibold hover:from-sol-500 hover:to-sol-600 transition-all shadow-md hover:shadow-lg"
+              >
+                <Icons.Download />
+                Instalar App
+              </button>
+            )}
+            {isInstalled && (
+              <span className="hidden sm:inline-flex items-center gap-2 text-emerald-600 text-sm font-medium">
+                <Icons.CheckCircle />
+                Instalada
+              </span>
+            )}
             <Link href="/login" className="btn-outline text-sm py-2 px-4">
               Iniciar sesión
             </Link>
@@ -307,11 +382,31 @@ export default function Home() {
                 <Link href="/profesor" className="bg-white text-ink-700 px-8 py-4 rounded-xl font-semibold hover:bg-ink-50 transition-colors shadow-lg">
                   Crear mi cuenta de profesor
                 </Link>
+                {isInstallable && !isInstalled && (
+                  <button 
+                    onClick={install}
+                    className="bg-sol-400 text-pizarra-900 px-8 py-4 rounded-xl font-semibold hover:bg-sol-300 transition-colors shadow-lg flex items-center justify-center gap-2"
+                  >
+                    <Icons.Download />
+                    Instalar App
+                  </button>
+                )}
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Botón flotante de instalación para móvil */}
+      {isInstallable && !isInstalled && (
+        <button
+          onClick={install}
+          className="fixed bottom-6 right-6 sm:hidden z-50 bg-gradient-to-r from-sol-400 to-sol-500 text-pizarra-900 p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all animate-pulse-soft"
+          aria-label="Instalar App"
+        >
+          <Icons.Download />
+        </button>
+      )}
 
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-pizarra-200">
