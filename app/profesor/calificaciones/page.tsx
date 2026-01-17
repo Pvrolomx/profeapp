@@ -193,14 +193,20 @@ export default function CalificacionesPage() {
 
         {/* Aviso de alumnos en riesgo */}
         {alumnosEnRiesgo > 0 && (
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-center gap-3">
-            <div className="text-amber-600">
-              <Icons.Warning />
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-center gap-4">
+            <img 
+              src="/warning.png" 
+              alt="Alumnos en riesgo"
+              className="w-20 h-20 flex-shrink-0"
+            />
+            <div>
+              <p className="text-amber-800 font-semibold">
+                {alumnosEnRiesgo} alumno{alumnosEnRiesgo > 1 ? 's' : ''} en riesgo
+              </p>
+              <p className="text-amber-700 text-sm">
+                Con promedio menor a 70. Considera dar seguimiento personalizado.
+              </p>
             </div>
-            <p className="text-amber-800">
-              <strong>{alumnosEnRiesgo} alumno{alumnosEnRiesgo > 1 ? 's' : ''}</strong> con promedio menor a 70. 
-              Considera dar seguimiento.
-            </p>
           </div>
         )}
 
