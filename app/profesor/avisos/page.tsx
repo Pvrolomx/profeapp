@@ -300,13 +300,15 @@ export default function AvisosPage() {
 
         {avisos.length === 0 && (
           <div className="text-center py-16">
-            <div className="w-16 h-16 mx-auto bg-pizarra-100 rounded-full flex items-center justify-center text-pizarra-400 mb-4">
-              <Icons.Bell />
-            </div>
-            <p className="text-pizarra-500">No hay avisos enviados</p>
+            <img 
+              src="/empty-state.png" 
+              alt="Sin avisos"
+              className="w-64 mx-auto mb-4 opacity-80"
+            />
+            <p className="text-pizarra-500 mb-4">Aún no has enviado avisos a tu grupo</p>
             <button 
               onClick={() => setMostrarForm(true)}
-              className="btn-profe mt-4"
+              className="btn-profe"
             >
               Enviar primer aviso
             </button>
