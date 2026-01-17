@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-body text-pizarra-800 bg-pizarra-50 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  /* Botón primario - Profesor */
+  .btn-profe {
+    @apply inline-flex items-center justify-center px-6 py-3 
+           bg-ink-600 text-white font-medium rounded-xl
+           hover:bg-ink-700 active:bg-ink-800
+           transform hover:scale-[1.02] active:scale-[0.98]
+           transition-all duration-200 ease-out
+           shadow-lg shadow-ink-600/25 hover:shadow-xl hover:shadow-ink-600/30;
+  }
+  
+  /* Botón secundario - Alumno */
+  .btn-alumno {
+    @apply inline-flex items-center justify-center px-6 py-3 
+           bg-sol-500 text-pizarra-900 font-medium rounded-xl
+           hover:bg-sol-400 active:bg-sol-600
+           transform hover:scale-[1.02] active:scale-[0.98]
+           transition-all duration-200 ease-out
+           shadow-lg shadow-sol-500/25 hover:shadow-xl hover:shadow-sol-500/30;
+  }
+  
+  /* Botón outline */
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 
+           bg-transparent border-2 border-pizarra-300 text-pizarra-700 
+           font-medium rounded-xl
+           hover:border-ink-400 hover:text-ink-600 hover:bg-ink-50
+           transform hover:scale-[1.02] active:scale-[0.98]
+           transition-all duration-200 ease-out;
+  }
+  
+  /* Card base */
+  .card {
+    @apply bg-white rounded-2xl border border-pizarra-200/50
+           shadow-sm hover:shadow-md transition-shadow duration-300;
+  }
+  
+  /* Input estilizado */
+  .input-field {
+    @apply w-full px-4 py-3 bg-white border border-pizarra-200 
+           rounded-xl text-pizarra-800 placeholder:text-pizarra-400
+           focus:outline-none focus:ring-2 focus:ring-ink-400/50 focus:border-ink-400
+           transition-all duration-200;
+  }
+  
+  /* Gradiente de fondo decorativo */
+  .bg-gradient-mesh {
+    background-image: 
+      radial-gradient(at 40% 20%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(245, 158, 11, 0.06) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, rgba(245, 158, 11, 0.04) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(99, 102, 241, 0.06) 0px, transparent 50%);
+  }
+  
+  /* QR container */
+  .qr-container {
+    @apply relative p-8 bg-white rounded-3xl shadow-2xl
+           border-4 border-ink-100;
+  }
+  
+  /* Badge de estado */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+  
+  .badge-success {
+    @apply bg-emerald-100 text-emerald-700;
+  }
+  
+  .badge-warning {
+    @apply bg-amber-100 text-amber-700;
+  }
+  
+  .badge-error {
+    @apply bg-red-100 text-red-700;
+  }
+}
+
+@layer utilities {
+  /* Texto con gradiente */
+  .text-gradient {
+    @apply bg-gradient-to-r from-ink-600 via-ink-500 to-sol-500 
+           bg-clip-text text-transparent;
+  }
+  
+  /* Animación de entrada escalonada */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-pizarra-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-pizarra-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-pizarra-400;
+}
